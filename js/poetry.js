@@ -3,7 +3,7 @@ async function getRandomTitle() {
     const response = await fetch('https://poetrydb.org/author/Oscar%20Wilde/title')
     const totalTitles = await response.json()
 
-    randomTitle = Math.floor(Math.random() * totalTitles.length)      
+    const randomTitle = Math.floor(Math.random() * totalTitles.length)      
     return totalTitles[randomTitle]['title']
 }
 
@@ -16,7 +16,7 @@ async function getPoetry() {
 }
 
 /**Returns a random line of poetry from getPoetry() function */
-export async function getRandomLine() {
+export default async function getRandomLine() {
     const poetry = await getPoetry();
     const randomLine = Math.floor(Math.random() * poetry[0]['lines'][0].length)
 

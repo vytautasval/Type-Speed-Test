@@ -32,18 +32,16 @@ function colorReact() {
     let coloredText = ''
     for (let i = 0; i < Math.min(userText.length, testTextContent.length); i++) {
         if (userText.charAt(i) === testTextContent.charAt(i)) {
-            coloredText = '<span style="color: green">' + testTextContent.charAt(i) + '</span>'
+            coloredText += '<span style="background-color: #66FF99;">' + testTextContent.charAt(i) + '</span>'
         } else {
-            coloredText = '<span style="color: red">' + testTextContent.charAt(i) + '</span>'    
+            coloredText += '<span style="background-color: #FFCCCB;">' + testTextContent.charAt(i) + '</span>'    
         }
-        if (testTextContent.length > userText.length) {
-            coloredText += testTextContent.substring(userText.length);
-        }
-
-    testText.innerHTML = coloredText
+           
     }
-
-    
+    if (testTextContent.length > userText.length) {
+        coloredText += testTextContent.substring(userText.length);
+    } 
+    testText.innerHTML = coloredText
 }
 
 userAnswer.addEventListener('input', () => {

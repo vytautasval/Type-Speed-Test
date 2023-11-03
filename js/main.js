@@ -2,6 +2,9 @@ import getRandomLine from "./poetry.js"
 
 let timeTaken = 0
 let timer
+const userAnswer = document.getElementById('user-answer')
+const testText = document.getElementById('test-text')
+console.log(userAnswer)
 /**Starts a 60 sec countdown and updates the innerHTMl every 1 sec.*/
 function startTimer() {
     timer = setInterval(() => {
@@ -14,21 +17,44 @@ function startTimer() {
     }, 1000)        
 }
 
+/**Initializes an await for random line to load and checks if line valid*/
 async function initLine() {
     let result = await getRandomLine()
     while (result === undefined || result === '') {
         result = await getRandomLine()
     }
-    document.getElementById('test-text').innerHTML = result
+    testText.innerHTML = result
 }
 
-document.getElementById('user-answer').addEventListener('input', () => {
+function colorReact() {
+    const userText = userAnswer.value
+    const testTextContent = testText.textContent
+    let coloredText = ''
+    for (let i = 0; i < Math.min(userText.length, testTextContent.length); i++) {
+        if (userText.charAt(i) === testTextContent.charAt(i)) {
+            coloredText = '<span style="color: green">' + testTextContent.charAt(i) + '</span>'
+        } else {
+            coloredText = '<span style="color: red">' + testTextContent.charAt(i) + '</span>'    
+        }
+        if (testTextContent.length > userText.length) {
+            coloredText += testTextContent.substring(userText.length);
+        }
+
+    testText.innerHTML = coloredText
+    }
+
+    
+}
+
+userAnswer.addEventListener('input', () => {
     if (!timer) {
         startTimer()
     }
+    colorReact()
 })
 
 initLine()
+
 
 
 

@@ -16,12 +16,12 @@ async function getPoetry() {
 }
 
 /**Returns a random line of poetry from getPoetry() function */
-async function getRandomLine() {
+export async function getRandomLine() {
     const poetry = await getPoetry();
     const randomLine = Math.floor(Math.random() * poetry[0]['lines'][0].length)
 
     const result = poetry[0]['lines'][randomLine]
     console.log(result)
+    return result
 }
 
-getRandomLine();

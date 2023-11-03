@@ -1,2 +1,2 @@
-import {getRandomTitle, getPoetry, getRandomLine} from "./poetry.js"
+import getRandomLine from "./poetry.js"
 

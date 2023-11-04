@@ -4,7 +4,8 @@ let timeTaken = 0
 let timer
 const userAnswer = document.getElementById('user-answer')
 const testText = document.getElementById('test-text')
-console.log(userAnswer)
+const highlight = document.getElementById('highlight')
+
 /**Starts a 60 sec countdown and updates the innerHTMl every 1 sec.*/
 function startTimer() {
     timer = setInterval(() => {
@@ -23,12 +24,12 @@ async function initLine() {
     while (result === undefined || result === '') {
         result = await getRandomLine()
     }
-    testText.innerHTML = result
+    testText.innerHTML = result    
 }
 
-function colorReact() {
+function colorReact() { 
     const userText = userAnswer.value
-    const testTextContent = testText.textContent
+    const testTextContent = testText.textContent   
     let coloredText = ''
     for (let i = 0; i < Math.min(userText.length, testTextContent.length); i++) {
         if (userText.charAt(i) === testTextContent.charAt(i)) {
@@ -39,16 +40,37 @@ function colorReact() {
            
     }
     if (testTextContent.length > userText.length) {
-        coloredText += testTextContent.substring(userText.length);
+        coloredText += testTextContent.substring(userText.length)
     } 
     testText.innerHTML = coloredText
 }
+
+function currentWord() {
+    const userText = userAnswer.value
+    const testTextContent = testText.textContent
+    const testTextArray = testTextContent.split(' ')
+    let totalLengthBase = 0
+    let currentWordIndex = 0  
+    
+    for (let i = 0; i < userText.length; i++) {
+      if (i < (testTextArray[currentWordIndex].length + totalLengthBase)) {
+        highlight.innerHTML = testTextArray[currentWordIndex]        
+      } else {
+        totalLengthBase += testTextArray[currentWordIndex].length + 1
+        currentWordIndex++
+      } 
+      
+    }    
+}
+
 
 userAnswer.addEventListener('input', () => {
     if (!timer) {
         startTimer()
     }
+    currentWord()    
     colorReact()
+    
 })
 
 initLine()

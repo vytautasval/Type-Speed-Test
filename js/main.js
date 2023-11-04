@@ -37,7 +37,7 @@ function colorReact() {
 
     for (let i = 0; i < Math.min(userText.length, testTextContent.length); i++) {
         if (userText.charAt(i) === testTextContent.charAt(i)) {
-            coloredText += '<span style="background-color: #66FF99;">' + testTextContent.charAt(i) + '</span>'
+            coloredText += '<span style="background-color: rgb(102, 255, 153);">' + testTextContent.charAt(i) + '</span>'
         } else {
             coloredText += '<span style="background-color: #FFCCCB;">' + testTextContent.charAt(i) + '</span>'    
            
@@ -75,15 +75,19 @@ userAnswer.addEventListener('input', () => {
     }
     currentWord()    
     colorReact()
-    if (userAnswer.value.length === testText.textContent.length) {        
-        for (let i of userAnswer.value) {
-            let elementColor = window.getComputedStyle(userAnswer.value[i]).getPropertyValue('color')
-            if (elementColor === '#66FF99') {
+    if (userAnswer.value.length === testText.textContent.length) {
+        const coloredSpans = testText.querySelectorAll('span')
+
+        for (let i = 0; i < coloredSpans.length; i++) {
+            let elementColor = window.getComputedStyle(coloredSpans[i]).getPropertyValue('background-color')
+           
+            if (elementColor === 'rgb(102, 255, 153)') {
                 correctAnswers++
             } else {
                 incorrectAnswers++
             }
         }
+
         document.getElementById('stats').innerHTML = `+${correctAnswers}, -${incorrectAnswers}`
         userAnswer.value = ''
         initLine()

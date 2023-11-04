@@ -5,11 +5,6 @@ let timer
 const userAnswer = document.getElementById('user-answer')
 const testText = document.getElementById('test-text')
 const highlight = document.getElementById('highlight')
-
-let totalCorrectAnswers = []
-let totalUserAnswers = []
-let wordCorrectness = []
-
 let correctAnswers = 0
 let incorrectAnswers = 0
 
@@ -37,30 +32,21 @@ async function initLine() {
 function colorReact() { 
     const userText = userAnswer.value
     const testTextContent = testText.textContent   
-    const testTextArray = testTextContent.split(' ')
-    let coloredText = ''
-    let correct = true
+    
+    let coloredText = ''    
 
     for (let i = 0; i < Math.min(userText.length, testTextContent.length); i++) {
         if (userText.charAt(i) === testTextContent.charAt(i)) {
             coloredText += '<span style="background-color: #66FF99;">' + testTextContent.charAt(i) + '</span>'
         } else {
             coloredText += '<span style="background-color: #FFCCCB;">' + testTextContent.charAt(i) + '</span>'    
-            correct = false
+           
         }           
     }
     if (testTextContent.length > userText.length) {
         coloredText += testTextContent.substring(userText.length)
     } 
-    testText.innerHTML = coloredText
-    
-    for (let i = 0; i < testTextArray.length; i++) {
-        if (i < userText.length && userText.charAt(i) === testTextArray[i]) {
-            wordCorrectness[i] = true;
-        } else {
-            wordCorrectness[i] = false;
-        }
-        }    
+    testText.innerHTML = coloredText        
     
 }
 
@@ -81,17 +67,6 @@ function currentWord() {
       }      
     }    
 }
-function computeStats() {
-    for (let i = 0; i < wordCorrectness.length; i++) {
-        if (wordCorrectness[i]) {
-            correctAnswers++
-        } else {
-            incorrectAnswers++
-        }
-    }
-
-    wordCorrectness = []
-}
 
 
 userAnswer.addEventListener('input', () => {
@@ -100,8 +75,15 @@ userAnswer.addEventListener('input', () => {
     }
     currentWord()    
     colorReact()
-    if (userAnswer.value.length === testText.textContent.length) {
-        computeStats()
+    if (userAnswer.value.length === testText.textContent.length) {        
+        for (let i of userAnswer.value) {
+            let elementColor = window.getComputedStyle(userAnswer.value[i]).getPropertyValue('color')
+            if (elementColor === '#66FF99') {
+                correctAnswers++
+            } else {
+                incorrectAnswers++
+            }
+        }
         document.getElementById('stats').innerHTML = `+${correctAnswers}, -${incorrectAnswers}`
         userAnswer.value = ''
         initLine()

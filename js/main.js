@@ -7,12 +7,14 @@ const testText = document.getElementById('test-text')
 const highlight = document.getElementById('highlight')
 let correctAnswers = 0
 let incorrectAnswers = 0
+let totalAnswers = correctAnswers + incorrectAnswers
 
 /**Starts a 60 sec countdown and updates the innerHTMl every 1 sec.*/
 function startTimer() {
     timer = setInterval(() => {
         if (timeTaken >= 61) {
             clearInterval(timer)
+            computeStats()
         } else {
             document.getElementById('timer').innerHTML = 60 - timeTaken
             timeTaken += 1
@@ -29,6 +31,11 @@ async function initLine() {
     testText.innerHTML = result    
 }
 
+function computeStats() {
+    const WPM = totalAnswers / 60
+    const accuracy = correctAnswers * 100 / totalAnswers
+    document.getElementById('stats').innerHTML = `WPM: ${WPM}, Accuracy: ${accuracy}`
+}
 function colorReact() { 
     const userText = userAnswer.value
     const testTextContent = testText.textContent   
@@ -77,10 +84,8 @@ userAnswer.addEventListener('input', () => {
     colorReact()
     if (userAnswer.value.length === testText.textContent.length) {
         const coloredSpans = testText.querySelectorAll('span')
-
         for (let i = 0; i < coloredSpans.length; i++) {
             let elementColor = window.getComputedStyle(coloredSpans[i]).getPropertyValue('background-color')
-           
             if (elementColor === 'rgb(102, 255, 153)') {
                 correctAnswers++
             } else {

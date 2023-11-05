@@ -7,6 +7,7 @@ const testText = document.getElementById('test-text')
 const highlight = document.getElementById('highlight')
 let correctAnswers = 0
 let incorrectAnswers = 0
+let results = []
 
 /**Starts a 60 sec countdown and updates the innerHTMl every 1 sec.*/
 function startTimer() {
@@ -24,6 +25,7 @@ function startTimer() {
 
 /**Initializes an await for random line to load and checks if line valid*/
 async function initLine() {
+
     let result = await getRandomLine()
     while (result === undefined || result === '') {
         result = await getRandomLine()
@@ -33,9 +35,41 @@ async function initLine() {
 
 function computeStats() {
     const totalAnswers = correctAnswers + incorrectAnswers
-    const accuracy = correctAnswers * 100 / totalAnswers
-    document.getElementById('stats').innerHTML = `Symbols per minute: ${totalAnswers.toFixed(3)}, Accuracy: ${accuracy.toFixed(3)}%`
+    const accuracy = parseInt((correctAnswers * 100 / totalAnswers).toFixed(3))
+    
+    document.getElementById('last-stats').innerHTML = `Symbols per minute: ${totalAnswers.toFixed(0)}, Accuracy: ${accuracy}%`
+    
+    let currentDate = new Date()
+
+    results.push({
+        date: `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}-${currentDate.getDate()} ${currentDate.getHours()}-${currentDate.getMinutes()}`,
+        spm: totalAnswers,
+        accuracy: accuracy
+    })
+
+    localStorage.setItem('results', JSON.stringify(results));
+
+    updateTable()
 }
+
+function updateTable() {
+    localStorage.setItem('spm', totalAnswers)
+    localStorage.setItem('accuracy', accuracy)
+    localStorage.setItem('date', `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}-${currentDate.getDate()}-
+    ${currentDate.getHours()}-${currentDate.getMinutes()}`)   
+    
+    let table = document.getElementById('total-stats')
+    let newRow = table.insertRow(-1)
+    let newDateElement = newRow.insertCell(0)
+    let newSpmElement = newRow.insertCell(1)
+    let newAccuracyElement = newRow.insertCell(2)
+    
+    newDateElement.textContent = localStorage.getItem('date')
+    newSpmElement.textContent = localStorage.getItem('spm')
+    newAccuracyElement.textContent = localStorage.getItem('accuracy')
+    
+}
+
 function colorReact() { 
     const userText = userAnswer.value
     const testTextContent = testText.textContent   
@@ -56,7 +90,6 @@ function colorReact() {
     testText.innerHTML = coloredText        
     
 }
-
 function currentWord() {
     const userText = userAnswer.value
     const testTextContent = testText.textContent
@@ -93,7 +126,7 @@ userAnswer.addEventListener('input', () => {
             }
         }
 
-        document.getElementById('stats').innerHTML = `+${correctAnswers}, -${incorrectAnswers}`
+        document.getElementById('last-stats').innerHTML = `+${correctAnswers}, -${incorrectAnswers}`
         userAnswer.value = ''
         initLine()
     }    

@@ -7,13 +7,13 @@ const testText = document.getElementById('test-text')
 const highlight = document.getElementById('highlight')
 let correctAnswers = 0
 let incorrectAnswers = 0
-let totalAnswers = correctAnswers + incorrectAnswers
 
 /**Starts a 60 sec countdown and updates the innerHTMl every 1 sec.*/
 function startTimer() {
     timer = setInterval(() => {
         if (timeTaken >= 61) {
             clearInterval(timer)
+            console.log(correctAnswers, incorrectAnswers)
             computeStats()
         } else {
             document.getElementById('timer').innerHTML = 60 - timeTaken
@@ -32,9 +32,9 @@ async function initLine() {
 }
 
 function computeStats() {
-    const WPM = totalAnswers / 60
+    const totalAnswers = correctAnswers + incorrectAnswers
     const accuracy = correctAnswers * 100 / totalAnswers
-    document.getElementById('stats').innerHTML = `WPM: ${WPM}, Accuracy: ${accuracy}`
+    document.getElementById('stats').innerHTML = `Symbols per minute: ${totalAnswers.toFixed(3)}, Accuracy: ${accuracy.toFixed(3)}%`
 }
 function colorReact() { 
     const userText = userAnswer.value
@@ -96,10 +96,18 @@ userAnswer.addEventListener('input', () => {
         document.getElementById('stats').innerHTML = `+${correctAnswers}, -${incorrectAnswers}`
         userAnswer.value = ''
         initLine()
-    }
-    
+    }    
 })
 
+document.getElementById('reset').addEventListener('click', () => {
+    location.reload()
+})
+
+document.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter' || event.key === 'Escape') {
+        location.reload()
+    }
+})
 initLine()
 
 

@@ -42,9 +42,6 @@ function startTimer() {
     }, 1000)        
 }
 
-
-
-
 /**Changes currently typed character to green or red based if input corresponds to
  * provided character from the text.*/
 function colorReact() { 
@@ -67,6 +64,7 @@ function colorReact() {
     testText.innerHTML = coloredText        
     
 }
+
 /**Prints the current word being typed out based on length. If current position of user input
  * is less than the current test word position, it will highlight the current test word.
  * If input position is further on, then it will move the current word index up one step and repeat the process.  
@@ -119,6 +117,7 @@ function updateTable() {
         }
     }    
 }
+
 /**Loads in all of the historical stats from local storage and inserts them as rows into table.
 * Done once at the loading of the page.*/
 function loadTable() {
@@ -160,6 +159,7 @@ function getAverageStats() {
         return [averageSpm, averageAccuracy]
     } 
 }
+
 /**Calculates the most recent performance in proportion to the average, and returns comparison. */
 function checkProgress(averageSpm, averageAccuracy) {
     const progress = document.getElementById('progress')    
@@ -190,11 +190,13 @@ function checkProgress(averageSpm, averageAccuracy) {
         progress.innerHTML += ' Your accuracy is dead average.'
     }
 }
+
 /**Loads in and returns all stored results.*/
 function loadStats() {
     const storedStats = JSON.parse(localStorage.getItem('results')) || []
     return storedStats
 }
+
 /**Adds newest round stats to the total results storage. Also stores newest stats in separate array.*/
 function computeStats() {
     const totalAnswers = +(correctAnswers + incorrectAnswers).toFixed(0)

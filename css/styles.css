@@ -1,31 +1,36 @@
 
-h1 {
-    grid-area: h1;
-    text-align: center;
-}
-h2 {
-    grid-area: h2;
-    text-align: center;
+#header-div {
+    grid-area: header-div;
+    border-radius: 9px;
+    border: solid black 8px;    
 }
 #timer {
     grid-area: timer;
     font-weight: bold;
-    font-size: 50px;
+    font-size: 40px;
 }
 #test-text {
     grid-area: test-text;
+    font-size: 50px;
+    border-bottom: solid black 2px;
 }
 #highlight {
+    font-weight: bold;
     grid-area: HL;
+    font-size: 40px;
 }
 #user-answer {
     grid-area: user-answer;
     border-radius: 5px;
     background-color: transparent;
-    padding: 12px 20px;
-    box-sizing: border-box;
-    border: 2px solid black;
+    padding: 12px 20px;    
+    border: none;
     resize: none;
+    text-align: center;
+    outline: none;
+    font-size: 24px;
+    color: white;
+    font-weight: bold;
 }
 #reset {
     grid-area: reset;
@@ -43,11 +48,18 @@ h2 {
 }
 #progress {
     grid-area: prog;
+    font-weight: bold;
 }
 #last-stats {
     grid-area: last-stats;
+    font-weight: bold;
 }
-#total-stats {
+table, th, td {
+    border: 2px solid black;
+    border-collapse: collapse;
+  }
+#total-stats{
+    
     grid-area: total-stats;
     
 }
@@ -65,8 +77,8 @@ body {
     align-items: center;
     row-gap: 10px;
     column-gap: 10px;
-    grid-template-areas: 'h1 h1'
-    'h2 h2'
+    grid-template-areas: 'header-div header-div'
+    'header-div header-div'
     'timer timer'
     'test-text test-text'
     'HL HL'

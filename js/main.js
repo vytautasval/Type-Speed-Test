@@ -17,8 +17,7 @@ async function initLine() {
     let result = await getRandomLine()
     while (result === undefined || result === '') {
         result = await getRandomLine()
-    }
-    document.getElementById('timer').innerHTML = 60
+    }    
     testText.innerHTML = result    
 }
 
@@ -53,9 +52,9 @@ function colorReact() {
 
     for (let i = 0; i < Math.min(userText.length, testTextContent.length); i++) {
         if (userText.charAt(i) === testTextContent.charAt(i)) {
-            coloredText += '<span style="background-color: rgb(102, 255, 153);">' + testTextContent.charAt(i) + '</span>'
+            coloredText += '<span style="background-color: rgb(101, 136, 100);">' + testTextContent.charAt(i) + '</span>'
         } else {
-            coloredText += '<span style="background-color: #FFCCCB;">' + testTextContent.charAt(i) + '</span>'    
+            coloredText += '<span style="background-color: #CE5A67;">' + testTextContent.charAt(i) + '</span>'    
            
         }           
     }
@@ -93,7 +92,7 @@ function validityCalculator() {
     const coloredSpans = testText.querySelectorAll('span')
         for (let i = 0; i < coloredSpans.length; i++) {
             let elementColor = window.getComputedStyle(coloredSpans[i]).getPropertyValue('background-color')
-            if (elementColor === 'rgb(102, 255, 153)') {
+            if (elementColor === 'rgb(101, 136, 100)') {
                 correctAnswers++
             } else {
                 incorrectAnswers++
@@ -203,6 +202,9 @@ function computeStats() {
     const totalAnswers = +(correctAnswers + incorrectAnswers).toFixed(0)
     const accuracy = +(correctAnswers * 100 / totalAnswers).toFixed(2)
     
+    if (accuracy === null) {
+        accuracy === 0
+    }
     document.getElementById('last-stats').innerHTML = `Symbols per minute: ${totalAnswers}, Accuracy: ${accuracy}%`
     
     let currentDate = new Date()

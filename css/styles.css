@@ -1,27 +1,47 @@
-
 #header-div {
     grid-area: header-div;
     border-radius: 9px;
-    border: solid black 8px;    
+    
+    font-family: 'Playfair Display';  
+    font-weight: bold;
+    padding: 2px;    
+}
+#input-div {
+    display: grid;
+    grid-template-areas: 'timer'
+    'test-text'
+    'HL'
+    'user-answer'
+    'reset';
+    grid-area: input-div;
+    justify-items: center;
+    background-color: #F4BF96;
+    padding: 20px;
+    border-radius: 10px;
+    border: 2px solid #CE5A67;
 }
 #timer {
     grid-area: timer;
-    font-weight: bold;
+    
     font-size: 40px;
+    font-family: Arial, Helvetica, sans-serif; 
 }
 #test-text {
     grid-area: test-text;
     font-size: 50px;
     border-bottom: solid black 2px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    
 }
 #highlight {
     font-weight: bold;
     grid-area: HL;
     font-size: 40px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
 }
 #user-answer {
     grid-area: user-answer;
-    border-radius: 5px;
+    border-radius: 10px;
     background-color: transparent;
     padding: 12px 20px;    
     border: none;
@@ -29,45 +49,55 @@
     text-align: center;
     outline: none;
     font-size: 24px;
-    color: white;
+    color: #FCF5ED;
     font-weight: bold;
 }
 #reset {
     grid-area: reset;
     height: 30px;
-    width: 30%;
+    width: 60%;
+    align-self: center;
     justify-self: center;
     border: 2px solid black;
-    border-radius: 5px;
-    background-color: white;
+    border-radius: 10px;
+    background-color: #FCF5ED;
     transition-duration: 0.4s;
-    cursor: pointer;    
+    cursor: pointer;
+    font-size: 14px;
+    
 }
 #reset:hover {
     background-color: #d9d9d9;
 }
 #progress {
     grid-area: prog;
-    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px; 
 }
 #last-stats {
     grid-area: last-stats;
     font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px; 
 }
 table, th, td {
-    border: 2px solid black;
+    border: 1px solid #CE5A67;
     border-collapse: collapse;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;  
   }
-#total-stats{
-    
-    grid-area: total-stats;
-    
+  
+th {
+    background-color: #F4BF96;
 }
-#average-stats {
-    grid-area: average-stats;
+#total-stats{    
+    grid-area: total-stats;    
+}
+#average-stats {    
+    grid-area: average-stats;    
 }
 body {
-    background-color: #f5aa42;
+    background-color: #FCF5ED;
     
 }
 .container {
@@ -79,14 +109,17 @@ body {
     column-gap: 10px;
     grid-template-areas: 'header-div header-div'
     'header-div header-div'
-    'timer timer'
-    'test-text test-text'
-    'HL HL'
-    'user-answer user-answer'
-    'reset reset'
+    'input-div input-div'
+    'input-div input-div'
+    'input-div input-div'
+    'input-div input-div'
+    'input-div input-div'
     'prog prog'
     'last-stats last-stats'
-    'average-stats total-stats'
+    'average-stats total-stats';
+    border-radius: 8px;
+    color: #1F1717;
+    
     
 
 }

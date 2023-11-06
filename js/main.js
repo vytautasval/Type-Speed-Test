@@ -18,6 +18,7 @@ async function initLine() {
     while (result === undefined || result === '') {
         result = await getRandomLine()
     }
+    document.getElementById('timer').innerHTML = 60
     testText.innerHTML = result    
 }
 

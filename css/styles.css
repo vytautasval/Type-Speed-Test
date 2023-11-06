@@ -1,0 +1,80 @@
+
+h1 {
+    grid-area: h1;
+    text-align: center;
+}
+h2 {
+    grid-area: h2;
+    text-align: center;
+}
+#timer {
+    grid-area: timer;
+    font-weight: bold;
+    font-size: 50px;
+}
+#test-text {
+    grid-area: test-text;
+}
+#highlight {
+    grid-area: HL;
+}
+#user-answer {
+    grid-area: user-answer;
+    border-radius: 5px;
+    background-color: transparent;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    border: 2px solid black;
+    resize: none;
+}
+#reset {
+    grid-area: reset;
+    height: 30px;
+    width: 30%;
+    justify-self: center;
+    border: 2px solid black;
+    border-radius: 5px;
+    background-color: white;
+    transition-duration: 0.4s;
+    cursor: pointer;    
+}
+#reset:hover {
+    background-color: #d9d9d9;
+}
+#progress {
+    grid-area: prog;
+}
+#last-stats {
+    grid-area: last-stats;
+}
+#total-stats {
+    grid-area: total-stats;
+    
+}
+#average-stats {
+    grid-area: average-stats;
+}
+body {
+    background-color: #f5aa42;
+    
+}
+.container {
+    display: grid;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    row-gap: 10px;
+    column-gap: 10px;
+    grid-template-areas: 'h1 h1'
+    'h2 h2'
+    'timer timer'
+    'test-text test-text'
+    'HL HL'
+    'user-answer user-answer'
+    'reset reset'
+    'prog prog'
+    'last-stats last-stats'
+    'average-stats total-stats'
+    
+
+}

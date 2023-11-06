@@ -10,6 +10,37 @@ let incorrectAnswers = 0
 let results = loadStats()
 let newestResults = []
 
+/**Calculates average stats by taking all results from local storage and looping over each element. */
+function getAverageStats() {
+    let table = document.getElementById('average-stats')
+    const storedResults = JSON.parse(localStorage.getItem('results'))
+    let totalSpm = 0
+    let totalAccuracy = 0
+    if (storedResults) {
+        let i = 0
+        for (const result of storedResults) {            
+            totalSpm += result.spm
+            totalAccuracy += result.accuracy
+            i++            
+        }
+        let averageSpm = totalSpm / i
+        let averageAccuracy = totalAccuracy / i
+        document.getElementById('spm').textContent = +averageSpm.toFixed(0)
+        document.getElementById('acc').textContent = +averageAccuracy.toFixed(2) + '%'
+
+        return [averageSpm, averageAccuracy]
+    } 
+}
+
+function checkProgress() {
+    const progress = document.getElementById('progress')
+    [averageSpm, averageAccuracy] = getAverageStats()
+    const totalAnswers = correctAnswers + incorrectAnswers
+    const accuracy = correctAnswers * 100 / totalAnswers
+    if (totalAnswers > averageSpm) {
+        progress.textContent = 
+    }
+}
 /**Loads in and returns all stored results.*/
 function loadStats() {
     const storedStats = JSON.parse(localStorage.getItem('results')) || []
@@ -22,11 +53,11 @@ function startTimer() {
     userAnswer.disabled = false
     timer = setInterval(() => {
         if (timeTaken >= 61) {
-            clearInterval(timer)
-            console.log(correctAnswers, incorrectAnswers)
+            clearInterval(timer)            
             userAnswer.disabled = true
             computeStats()            
             updateTable()
+            checkProgress()
         } else {
             document.getElementById('timer').innerHTML = 60 - timeTaken
             timeTaken += 1
@@ -47,9 +78,9 @@ async function initLine() {
 /**Adds newest round stats to the total results storage. Also stores newest stats in separate array.*/
 function computeStats() {
     const totalAnswers = correctAnswers + incorrectAnswers
-    const accuracy = parseInt((correctAnswers * 100 / totalAnswers).toFixed(3))
+    const accuracy = correctAnswers * 100 / totalAnswers
     
-    document.getElementById('last-stats').innerHTML = `Symbols per minute: ${totalAnswers.toFixed(0)}, Accuracy: ${accuracy}%`
+    document.getElementById('last-stats').innerHTML = `Symbols per minute: ${+totalAnswers.toFixed(0)}, Accuracy: ${+accuracy.toFixed(2)}%`
     
     let currentDate = new Date()
 
@@ -81,7 +112,7 @@ function updateTable() {
 
             newDateElement.textContent = result.date
             newSpmElement.textContent = result.spm
-            newAccuracyElement.textContent = result.accuracy + '%'
+            newAccuracyElement.textContent = +result.accuracy.toFixed(2) + '%'
         }
     }    
 }
@@ -100,11 +131,13 @@ function loadTable() {
 
             newDateElement.textContent = result.date
             newSpmElement.textContent = result.spm
-            newAccuracyElement.textContent = result.accuracy + '%'
+            newAccuracyElement.textContent = +result.accuracy.toFixed(2) + '%'
         }
     }    
 }
 
+/**Changes currently typed character to green or red based if input corresponds to
+ * provided character from the text.*/
 function colorReact() { 
     const userText = userAnswer.value
     const testTextContent = testText.textContent   
@@ -125,11 +158,15 @@ function colorReact() {
     testText.innerHTML = coloredText        
     
 }
+/**Prints the current word being typed out based on length. If current position of user input
+ * is less than the current test word position, it will highlight the current test word.
+ * If input position is further on, then it will move the current word index up one step and repeat the process.  
+ */
 function currentWord() {
     const userText = userAnswer.value
     const testTextContent = testText.textContent
     const testTextArray = testTextContent.split(' ')
-    let totalLengthBase = 0
+    let totalLengthBase = 0 
     let currentWordIndex = 0  
     
     for (let i = 0; i < userText.length; i++) {
@@ -137,7 +174,7 @@ function currentWord() {
       if (i < adjustedWordPos) {
         highlight.innerHTML = testTextArray[currentWordIndex]        
       } else {        
-        totalLengthBase += testTextArray[currentWordIndex].length + 1
+        totalLengthBase += testTextArray[currentWordIndex].length + 1 //+1 is to account for spaces.
         currentWordIndex++
       }      
     }    
@@ -178,6 +215,7 @@ document.addEventListener('keydown', (event) => {
 })
 initLine()
 loadTable()
+getAverageStats()
 
 
 

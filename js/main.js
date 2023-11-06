@@ -7,15 +7,26 @@ const testText = document.getElementById('test-text')
 const highlight = document.getElementById('highlight')
 let correctAnswers = 0
 let incorrectAnswers = 0
-let results = []
+let results = loadStats()
+let newestResults = []
 
-/**Starts a 60 sec countdown and updates the innerHTMl every 1 sec.*/
+/**Loads in and returns all stored results.*/
+function loadStats() {
+    const storedStats = JSON.parse(localStorage.getItem('results')) || []
+    return storedStats
+}
+
+/**Starts a 60 sec countdown and updates the innerHTML every 1 sec.
+ * Once timer stops runs stat processing functions.*/
 function startTimer() {
+    userAnswer.disabled = false
     timer = setInterval(() => {
         if (timeTaken >= 61) {
             clearInterval(timer)
             console.log(correctAnswers, incorrectAnswers)
-            computeStats()
+            userAnswer.disabled = true
+            computeStats()            
+            updateTable()
         } else {
             document.getElementById('timer').innerHTML = 60 - timeTaken
             timeTaken += 1
@@ -23,7 +34,7 @@ function startTimer() {
     }, 1000)        
 }
 
-/**Initializes an await for random line to load and checks if line valid*/
+/**Initializes an await for random line to load and checks if line valid.*/
 async function initLine() {
 
     let result = await getRandomLine()
@@ -33,6 +44,7 @@ async function initLine() {
     testText.innerHTML = result    
 }
 
+/**Adds newest round stats to the total results storage. Also stores newest stats in separate array.*/
 function computeStats() {
     const totalAnswers = correctAnswers + incorrectAnswers
     const accuracy = parseInt((correctAnswers * 100 / totalAnswers).toFixed(3))
@@ -42,32 +54,55 @@ function computeStats() {
     let currentDate = new Date()
 
     results.push({
-        date: `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}-${currentDate.getDate()} ${currentDate.getHours()}-${currentDate.getMinutes()}`,
+        date: `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}-${currentDate.getDate()} ${currentDate.getHours()}:${currentDate.getMinutes()}`,
         spm: totalAnswers,
-        accuracy: accuracy
+        accuracy: accuracy,
     })
 
-    localStorage.setItem('results', JSON.stringify(results));
+    localStorage.setItem('results', JSON.stringify(results))
 
-    updateTable()
+    newestResults.push({
+        date: `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}-${currentDate.getDate()} ${currentDate.getHours()}:${currentDate.getMinutes()}`,
+        spm: totalAnswers,
+        accuracy: accuracy,
+    })
+
 }
-
+/**Takes in the newest results and adds them as a new row into the table.*/
 function updateTable() {
-    localStorage.setItem('spm', totalAnswers)
-    localStorage.setItem('accuracy', accuracy)
-    localStorage.setItem('date', `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}-${currentDate.getDate()}-
-    ${currentDate.getHours()}-${currentDate.getMinutes()}`)   
-    
     let table = document.getElementById('total-stats')
-    let newRow = table.insertRow(-1)
-    let newDateElement = newRow.insertCell(0)
-    let newSpmElement = newRow.insertCell(1)
-    let newAccuracyElement = newRow.insertCell(2)
-    
-    newDateElement.textContent = localStorage.getItem('date')
-    newSpmElement.textContent = localStorage.getItem('spm')
-    newAccuracyElement.textContent = localStorage.getItem('accuracy')
-    
+
+    if (newestResults) {
+        for (const result of newestResults) {
+            let newRow = table.insertRow(-1)
+            let newDateElement = newRow.insertCell(0)
+            let newSpmElement = newRow.insertCell(1)
+            let newAccuracyElement = newRow.insertCell(2)
+
+            newDateElement.textContent = result.date
+            newSpmElement.textContent = result.spm
+            newAccuracyElement.textContent = result.accuracy + '%'
+        }
+    }    
+}
+/**Loads in all of the historical stats from local storage and inserts them as rows into table.
+ * Done once at the loading of the page.*/
+function loadTable() {
+    let table = document.getElementById('total-stats')
+    const storedResults = JSON.parse(localStorage.getItem('results'))
+
+    if (storedResults) {
+        for (const result of storedResults) {
+            let newRow = table.insertRow(-1)
+            let newDateElement = newRow.insertCell(0)
+            let newSpmElement = newRow.insertCell(1)
+            let newAccuracyElement = newRow.insertCell(2)
+
+            newDateElement.textContent = result.date
+            newSpmElement.textContent = result.spm
+            newAccuracyElement.textContent = result.accuracy + '%'
+        }
+    }    
 }
 
 function colorReact() { 
@@ -127,8 +162,8 @@ userAnswer.addEventListener('input', () => {
         }
 
         document.getElementById('last-stats').innerHTML = `+${correctAnswers}, -${incorrectAnswers}`
-        userAnswer.value = ''
-        initLine()
+        userAnswer.value = ''        
+        initLine()        
     }    
 })
 
@@ -142,7 +177,7 @@ document.addEventListener('keydown', (event) => {
     }
 })
 initLine()
-
+loadTable()
 
 
 

@@ -1,0 +1,125 @@
+#header-div {
+    grid-area: header-div;
+    border-radius: 9px;
+    
+    font-family: 'Playfair Display';  
+    font-weight: bold;
+    padding: 2px;    
+}
+#input-div {
+    display: grid;
+    grid-template-areas: 'timer'
+    'test-text'
+    'HL'
+    'user-answer'
+    'reset';
+    grid-area: input-div;
+    justify-items: center;
+    background-color: #F4BF96;
+    padding: 20px;
+    border-radius: 10px;
+    border: 2px solid #CE5A67;
+}
+#timer {
+    grid-area: timer;
+    
+    font-size: 40px;
+    font-family: Arial, Helvetica, sans-serif; 
+}
+#test-text {
+    grid-area: test-text;
+    font-size: 50px;
+    border-bottom: solid black 2px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    
+}
+#highlight {
+    font-weight: bold;
+    grid-area: HL;
+    font-size: 40px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+#user-answer {
+    grid-area: user-answer;
+    border-radius: 10px;
+    background-color: transparent;
+    padding: 12px 20px;    
+    border: none;
+    resize: none;
+    text-align: center;
+    outline: none;
+    font-size: 24px;
+    color: #FCF5ED;
+    font-weight: bold;
+}
+#reset {
+    grid-area: reset;
+    height: 30px;
+    width: 60%;
+    align-self: center;
+    justify-self: center;
+    border: 2px solid black;
+    border-radius: 10px;
+    background-color: #FCF5ED;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    font-size: 14px;
+    
+}
+#reset:hover {
+    background-color: #d9d9d9;
+}
+#progress {
+    grid-area: prog;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px; 
+}
+#last-stats {
+    grid-area: last-stats;
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px; 
+}
+table, th, td {
+    border: 1px solid #CE5A67;
+    border-collapse: collapse;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;  
+  }
+  
+th {
+    background-color: #F4BF96;
+}
+#total-stats{    
+    grid-area: total-stats;    
+}
+#average-stats {    
+    grid-area: average-stats;    
+}
+body {
+    background-color: #FCF5ED;
+    
+}
+.container {
+    display: grid;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    row-gap: 10px;
+    column-gap: 10px;
+    grid-template-areas: 'header-div header-div'
+    'header-div header-div'
+    'input-div input-div'
+    'input-div input-div'
+    'input-div input-div'
+    'input-div input-div'
+    'input-div input-div'
+    'prog prog'
+    'last-stats last-stats'
+    'average-stats total-stats';
+    border-radius: 8px;
+    color: #1F1717;
+    
+    
+
+}

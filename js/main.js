@@ -2,13 +2,24 @@ import getRandomLine from "./poetry.js"
 
 let timeTaken = 0
 let timer
-const userAnswer = document.getElementById('user-answer')
-const testText = document.getElementById('test-text')
-const highlight = document.getElementById('highlight')
 let correctAnswers = 0
 let incorrectAnswers = 0
 let results = loadStats()
 let newestResults = []
+
+const userAnswer = document.getElementById('user-answer')
+const testText = document.getElementById('test-text')
+const highlight = document.getElementById('highlight')
+
+/**Initializes an await for random line to load and checks if line valid.*/
+async function initLine() {
+
+    let result = await getRandomLine()
+    while (result === undefined || result === '') {
+        result = await getRandomLine()
+    }
+    testText.innerHTML = result    
+}
 
 /**Starts a 60 sec countdown and updates the innerHTML every 1 sec.
  * Once timer stops runs stat processing functions.*/
@@ -31,15 +42,6 @@ function startTimer() {
     }, 1000)        
 }
 
-/**Initializes an await for random line to load and checks if line valid.*/
-async function initLine() {
-
-    let result = await getRandomLine()
-    while (result === undefined || result === '') {
-        result = await getRandomLine()
-    }
-    testText.innerHTML = result    
-}
 
 
 

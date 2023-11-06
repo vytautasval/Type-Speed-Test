@@ -1,5 +1,5 @@
 /**Fetches random title and returns it.*/
-async function getRandomTitle() {    
+ async function getRandomTitle() {    
     const response = await fetch('https://poetrydb.org/author/Oscar%20Wilde/title')
     const totalTitles = await response.json()
 
@@ -17,10 +17,14 @@ async function getPoetry() {
 
 /**Returns a random line of poetry from getPoetry() function */
 export default async function getRandomLine() {
-    const poetry = await getPoetry();
-    const randomLine = Math.floor(Math.random() * poetry[0]['lines'][0].length)
-
-    const result = poetry[0]['lines'][randomLine]    
-    return result
+    try {
+        const poetry = await getPoetry();
+        const randomLine = Math.floor(Math.random() * poetry[0]['lines'][0].length)
+        const result = poetry[0]['lines'][randomLine]    
+        return result
+    } catch (error) {
+        document.getElementById('test-text').style.color = 'red'
+        document.getElementById('test-text').textContent = 'An error has occured. Reloading.'
+    }
 }
 
